@@ -25,3 +25,8 @@ def rehearsal_view(request):
         'song_counts': models.Song.objects.annotate(Count('rehearsal')).order_by('-rehearsal__count')[:10]
     }
     return render(request, 'song_request/rehearsals.html', context)
+
+
+def create_rehearsal_view(request):
+
+    return render(request, 'song_request/create_rehearsal.html')
