@@ -11,12 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="grey">
-  <nav>
+<body class="grey lighten-3">
+  <nav class="orange">
     <div class="nav-wrapper container">
-      <a href="#" class="brand-logo">Logo</a>
+      <a href="#" class="brand-logo">Band-Planner</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Placeholder</a></li>
+        <li><a href="{% url 'songs' %}">Songs</a></li>
+        <li><a href="{% url 'bands' %}">Bands</a></li>
+        <li><a href="{% url 'proben' %}">Proben</a></li>
       </ul>
     </div>
   </nav>

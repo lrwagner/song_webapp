@@ -24,7 +24,7 @@ def get_sheets():
     df = pd.concat(dfs, ignore_index=True)
     df['band'] = df.band.str.lower()
     df['band'] = df.band.str.replace('chill', 'chili')
-    df['band'].str.replace('the ', '')
+    df['band'] = df['band'].str.replace('the ', '')
     df['song'] = df.song.str.strip()
     df['song'] = df.song.str.replace("'", '')
 
