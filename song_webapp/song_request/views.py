@@ -1,5 +1,9 @@
 from django.shortcuts import render
-
+from song_request import models
 
 def song_view(request):
-    return render(request, context, )
+
+    context = {
+        'songs': models.Song.objects.all()
+    }
+    return render(request, 'song_request/index.html', context)
