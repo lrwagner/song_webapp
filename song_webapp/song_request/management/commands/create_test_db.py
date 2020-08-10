@@ -15,7 +15,7 @@ class Command(BaseCommand):
         Song.objects.all().delete()
         Band.objects.all().delete()
 
-        for idx, row in data.iterrows():
+        for _, row in data.iterrows():
             band = Band(name=row['band'])
             band.save()
             song = Song(
