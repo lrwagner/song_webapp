@@ -22,3 +22,7 @@ class Song(models.Model):
 class Rehearsal(models.Model):
     date = models.DateField(verbose_name='Datum')
     songs = models.ManyToManyField(Song, verbose_name='Songs')
+
+    def __str__(self):
+        return self.date
+    
