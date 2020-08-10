@@ -16,6 +16,14 @@ class Song(models.Model):
     band = models.ForeignKey(Band, verbose_name='Band', on_delete=models.CASCADE)
     info = models.TextField(verbose_name='Info')
 
+    @property
+    def last_played(self):
+        rehearsal_query = Rehearsal.objects.filter(songs__name=self.name)
+        if rehearsal_query.exists():
+            return rehearsal_query.latest('date').date
+        else:
+            return 'noch nie gespielt!'
+
     def __str__(self):
         return self.name
 
