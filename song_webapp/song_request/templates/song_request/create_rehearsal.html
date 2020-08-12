@@ -1,0 +1,14 @@
+{% extends 'song_request/base.html' %}
+
+{% block content %}
+<div class="card-panel">
+    <h3 class="header deep-orange-text">Probe-Setliste</h3>
+    <form action="/create_rehearsal/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" class="btn deep-orange">
+    </form>
+    </form>
+</div>
+
+{% endblock content %}

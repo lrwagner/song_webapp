@@ -1,0 +1,19 @@
+{% extends 'song_request/base.html' %}
+
+{% block content %}
+<div class="card-panel">
+  <h1 class="header grey-text">Bandliste</h1>
+  <ul class="collection">
+
+    {% for band in bands %}
+    <li class="collection-item avatar">
+      <i class="material-icons circle blue">people</i>
+      <span class="title">{{ band.name|title }}</span>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    {% endfor %}
+
+  </ul>
+</div>
+
+{% endblock content %}

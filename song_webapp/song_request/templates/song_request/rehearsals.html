@@ -1,0 +1,49 @@
+{% extends 'song_request/base.html' %}
+
+{% block content %}
+
+<div class="card-panel">
+<a href="{% url 'create_rehearsal' %}" class="btn deep-orange">Neue Probe<i class="material-icons right">add</i></a>
+  <h3 class="deep-orange-text">Song-Counts</h3>
+  <ul class="collection">
+  {% for song in song_counts %}
+  <li class="collection-item avatar">
+    <i class="material-icons circle {{ song.color }}">library_music</i>
+    <span class="title"><b>{{ song.name|title }}</b></span>
+    <p>
+      {{ song.band|title }}<br>
+      gespielt: {{ song.rehearsed_count }} mal<br>
+      zuletzt am: {{ song.last_played }}
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>    
+  {% endfor %}
+  </ul>
+</div>
+
+
+{% for rehearsal in rehearsals %}
+<div class="card-panel">
+  <h3 class="orange-text">Probedatum: {{ rehearsal.date }}</h3>
+    <h4 class="header grey-text">Songliste</h4>
+  <ul class="collection">
+  {% for song in rehearsal.songs.all %}
+  <li class="collection-item avatar">
+    <i class="material-icons circle blue">library_music</i>
+    <span class="title">{{ song.name|title }}</span>
+    <p>
+      {{ song.band|title }}<br>
+      {{ song.album|title }}<br>
+      {{ song.year }}<br>
+      gespielt: {{ song.rehearsed_count }} mal
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  {% endfor %}
+  </ul>
+</div>
+{% endfor %}
+
+
+
+{% endblock content %}
