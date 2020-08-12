@@ -1,6 +1,7 @@
 .venv
 .vscode
 data
+_api_secrets.py
 
 # Editors
 .vscode/
