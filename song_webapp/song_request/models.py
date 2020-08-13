@@ -14,7 +14,7 @@ class Song(models.Model):
     # TODO Farbe für Icon anhand Zeitpunkt der letzten Probe
     name = models.CharField(max_length=40, verbose_name='Titel', unique=True)
     album = models.CharField(max_length=40, verbose_name='Album')
-    year = models.IntegerField(verbose_name='Erscheinungsjahr')
+    published = models.IntegerField(verbose_name='Erscheinungsjahr')
     band = models.ForeignKey(Band, verbose_name='Band', on_delete=models.CASCADE)
     info = models.TextField(verbose_name='Info')
 
