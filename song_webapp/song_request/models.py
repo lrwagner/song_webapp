@@ -11,12 +11,13 @@ class Band(models.Model):
 
 
 class Song(models.Model):
-    # TODO Farbe für Icon anhand Zeitpunkt der letzten Probe
     name = models.CharField(max_length=40, verbose_name='Titel', unique=True)
     album = models.CharField(max_length=40, verbose_name='Album')
     published = models.IntegerField(verbose_name='Erscheinungsjahr')
     band = models.ForeignKey(Band, verbose_name='Band', on_delete=models.CASCADE)
+    lyrics = models.TextField(verbose_name='Lyrics')
     info = models.TextField(verbose_name='Info')
+    archive = models.BooleanField(verbose_name='Archivsong')
 
     @property
     def rehearsed_count(self):
