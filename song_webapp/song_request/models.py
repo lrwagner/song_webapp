@@ -13,11 +13,11 @@ class Band(models.Model):
 class Song(models.Model):
     name = models.CharField(max_length=40, verbose_name='Titel', unique=True)
     album = models.CharField(max_length=40, verbose_name='Album')
-    published = models.IntegerField(verbose_name='Erscheinungsjahr')
+    published = models.IntegerField(verbose_name='Erscheinungsjahr', default=0)
     band = models.ForeignKey(Band, verbose_name='Band', on_delete=models.CASCADE)
-    lyrics = models.TextField(verbose_name='Lyrics')
-    info = models.TextField(verbose_name='Info')
-    archive = models.BooleanField(verbose_name='Archivsong')
+    lyrics = models.TextField(verbose_name='Lyrics', default='keine')
+    info = models.TextField(verbose_name='Info', default='keine')
+    archive = models.BooleanField(verbose_name='Archivsong', default=False)
 
     @property
     def rehearsed_count(self):
@@ -34,7 +34,7 @@ class Song(models.Model):
             return rehearsal_query.latest('date').date
         else:
             return 'Nie'
-    
+
     @property
     def color(self):
         if self.last_played == 'Nie':
@@ -44,7 +44,7 @@ class Song(models.Model):
         if days_not_played.days < 15:
             return 'green'
         elif 20 > days_not_played.days > 15:
-            return 'yellow' 
+            return 'yellow'
         else:
             return 'orange'
 
@@ -57,10 +57,11 @@ class Song(models.Model):
 
 class Rehearsal(models.Model):
     date = models.DateField(verbose_name='Datum')
-    songs = models.ManyToManyField(Song, verbose_name='Songs')
+    songs = models.ManyToManyField(Song, default=None, verbose_name='Songs')
+    in_progress = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.date)
-    
+
     class Meta:
         ordering = ['-date']

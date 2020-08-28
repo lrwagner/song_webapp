@@ -2,13 +2,39 @@
 
 {% block content %}
 <div class="card-panel">
-    <h3 class="header deep-orange-text">Probe-Setliste</h3>
-    <form action="/create_rehearsal/" method="post">
+  <form action="{% url 'create_rehearsal' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn green"><i class="material-icons white-text">add</i></button>
+  </form>
+  </form>
+</div>
+
+{% if songs %}
+<div class="card-panel">
+  <h2 class="header deep-orange-text">Songliste</h2>
+  <ul class="collection">
+    {% for song in songs %}
+    <li class="collection-item avatar">
+      <i class="material-icons circle {{ song.color }}">library_music</i>
+      <span class="title"><b>{{ song.name|title }}</b></span>
+      <p>
+        {{ song.band|title }}<br>
+      </p>
+      <div class="secondary-content">
+      <form action="{% url 'delete_song' rehearsal.id song.id %}" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit" class="btn deep-orange">
-    </form>
+        <button type="submit" class="btn red"><i class="material-icons white-text">delete</i></a>
+      </form>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+    <form action="{% url 'submit_rehearsal' rehearsal.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Set speichern" class="btn green">
     </form>
 </div>
+{% endif %}
 
 {% endblock content %}

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from datetime import date
+
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
-from django.http import HttpResponseRedirect
 
 from song_request import models
-from .forms import NameForm
+from .forms import RehearsalForm
 
 
 def song_view(request):
@@ -32,18 +33,47 @@ def rehearsal_view(request):
 
 
 def create_rehearsal_view(request):
-        # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/probe/')
 
-    # if a GET (or any other method) we'll create a blank form
+    if models.Rehearsal.objects.filter(in_progress=True).exists():
+        rehearsal = models.Rehearsal.objects.filter(in_progress=True).get()
+
+        if request.method == 'POST':
+            form = RehearsalForm(request.POST)
+            song_name = form.data['song_name']
+            song = models.Song.objects.filter(name=song_name).get()
+            rehearsal.songs.add(song)
+            songs = rehearsal.songs.all()
+
+        else:
+            songs = rehearsal.songs.all()
     else:
-        form = NameForm()
-    return render(request, 'song_request/create_rehearsal.html', {'form': form})
+        today = date.today()
+        rehearsal = models.Rehearsal(date=today, in_progress=True)
+        rehearsal.save()
+        songs = None
+
+    context = {
+        'form': RehearsalForm(),
+        'rehearsal': rehearsal,
+        'songs': songs
+        }
+    return render(request, 'song_request/create_rehearsal.html', context)
+
+
+def rehearsal_del_song(request, rehearsal, song):
+    rehearsal = get_object_or_404(models.Rehearsal, pk=rehearsal)
+    song = get_object_or_404(models.Song, pk=song)
+
+    if request.method == 'POST':
+        rehearsal.songs.remove(song)
+        return redirect('create_rehearsal')
+
+    return redirect('create_rehearsal')
+
+
+def submit_rehearsal(request, rehearsal):
+    rehearsal = get_object_or_404(models.Rehearsal, pk=rehearsal)
+    rehearsal.in_progress = False
+    rehearsal.save()
+
+    return redirect('create_rehearsal')

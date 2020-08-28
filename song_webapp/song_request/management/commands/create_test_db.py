@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = 'Loads Test Data into the Database'
 
     def handle(self, *args, **options):
-    
+
         data = stats.get_sheets()
         Song.objects.all().delete()
         Band.objects.all().delete()
@@ -22,7 +22,7 @@ class Command(BaseCommand):
             else:
                 band = Band(name=row['band'])
                 band.save()
-            
+
             if Song.objects.filter(name=row.song).exists():
                 song = Song.objects.filter(name=row.song).get()
             else:
@@ -30,7 +30,6 @@ class Command(BaseCommand):
                     name=row['song'],
                     band=band,
                     album='album_name',
-                    year=0000,
                     info='leer'
                 )
                 song.save()
@@ -41,6 +40,6 @@ class Command(BaseCommand):
                 rehearsal = Rehearsal(date=date.fromisoformat(row['date']))
                 rehearsal.save()
             rehearsal.songs.add(song)
-            
+
 
         self.stdout.write(self.style.SUCCESS('Successfully loaded Testdata "%s" records' % data.shape[0]))
